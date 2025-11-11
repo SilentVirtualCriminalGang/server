@@ -27,7 +27,7 @@ io.on("connection", (socket) => {
   socket.on("find-partner", () => {
     console.log(`🔍 ${socket.id} is searching for a partner...`);
 
-    // যদি কেউ already waiting থাকে
+   
     if (waitingUser && waitingUser.id !== socket.id) {
       const partner = waitingUser;
       waitingUser = null;
@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
 
       console.log(`💬 ${socket.id} paired with ${partner.id}`);
     } else {
-      // কেউ না থাকলে wait list এ রাখো
+      // 
       waitingUser = socket;
       socket.emit("waiting", "Waiting for a partner...");
       console.log(`${socket.id} is waiting for a partner.`);
@@ -63,12 +63,12 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("❌ Disconnected:", socket.id);
 
-    // যদি pair থাকে, partner কে জানাও
+    //
     if (socket.partnerId) {
       io.to(socket.partnerId).emit("partner-disconnected");
     }
 
-    // যদি wait list এ থাকে, তাকে remove করো
+    //
     if (waitingUser && waitingUser.id === socket.id) {
       waitingUser = null;
     }
